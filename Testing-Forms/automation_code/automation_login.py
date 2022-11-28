@@ -24,8 +24,21 @@ for i in dataframe.index:
 
     # email_input.submit()
 
-    login_btn = browser.find_element('name','login')
-    browser.execute_script("return arguments[0].click()", login_btn)
+    browser.find_element('name','login').click()
+
+    expected_url = "http://127.0.0.1:3000/profile"
+    current_url = browser.current_url
+    print(current_url)
+
+    if expected_url == current_url:
+        time.sleep(3)
+        browser.find_element('name','logout').click()
+        print("User testcase valid")
+        browser.get("http://127.0.0.1:3000/login")
+         
+    else :
+        print("Invalid testcase")
+       
 
     time.sleep(5)
 
