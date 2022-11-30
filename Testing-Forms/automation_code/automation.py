@@ -34,4 +34,39 @@ for i in dataframe.index:
     submit_btn = browser.find_element('name','submit')
     browser.execute_script("return arguments[0].click()", submit_btn)
 
-    time.sleep(2)
+    req_status = entry['req_status']
+    desc = entry['Test_description']
+    result_expected = ""
+    actual_result = ""
+
+    if req_status:
+        result_expected = "Registration Successful"
+    else:
+        result_expected = "Registration Failed"
+
+    msg = browser.find_element("id","check")
+
+    status = 1
+    if(msg.text == "You are regestered,You can login now."):
+        err = "None"
+        actual_result = "Registration Successful"
+    else:
+        status = 0
+        actual_result = "Registration Failed"
+        err = msg
+
+    if status == req_status:
+        status = "Pass"
+    else:
+        status = "Fail"
+
+    entry = {'Test description':desc,'Testcase status':status,'Result Expected':result_expected,'Actual_Result':actual_result,'Error':err}
+    print(entry)
+    time.sleep(3)
+    email_input.clear()
+    name_input.clear()
+    pass_input.clear()
+    cnfpass_input.clear()
+    
+    time.sleep(5)
+    # browser.close()
